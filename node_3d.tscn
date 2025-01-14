@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7646ji4d1lkf"]
+
+[ext_resource type="Script" path="res://node_3d.gd" id="1_5pvvy"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_shbto"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_5pvvy")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="LeftController" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+
+[node name="RightController" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "start vr"
+
+[node name="Button2" type="Button" parent="CanvasLayer"]
+offset_left = -2.0
+offset_top = 48.0
+offset_right = 63.0
+offset_bottom = 79.0
+text = "test response"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0790895, 0, -2.99969)
+mesh = SubResource("CapsuleMesh_shbto")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.821839, -0.362267, 0.439709, 0.164996, 0.890066, 0.424921, -0.545305, -0.276667, 0.791264, 2.54769, 0, 0)

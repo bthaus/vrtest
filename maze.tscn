@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://bas8lw312g4in"]
+
+[ext_resource type="Script" path="res://maze.gd" id="1_eweh1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lcinx"]
+
+[sub_resource type="Curve3D" id="Curve3D_m0fq2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6nyni"]
+size = Vector3(13.0792, 0.0429688, 16.0043)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_joybb"]
+resource_local_to_scene = true
+size = Vector3(39.5822, 0.0429688, 41.1682)
+
+[node name="maze" type="RigidBody3D"]
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_lcinx")
+gravity_scale = 0.0
+can_sleep = false
+script = ExtResource("1_eweh1")
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_m0fq2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5395, 0.737934, 7.00188)
+shape = SubResource("BoxShape3D_6nyni")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.38788, -1.09904, -5.17038)
+shape = SubResource("BoxShape3D_joybb")

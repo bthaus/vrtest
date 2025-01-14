@@ -1,0 +1,142 @@
+[gd_scene load_steps=17 format=3 uid="uid://rhy12n5i4ajl"]
+
+[ext_resource type="Script" path="res://main_scene.gd" id="1_j8ufs"]
+[ext_resource type="Script" path="res://player.gd" id="2_nwofu"]
+[ext_resource type="Script" path="res://camera_3d.gd" id="2_r4okr"]
+[ext_resource type="Texture2D" uid="uid://ddslxoaro1h63" path="res://White-brick-wall-texture-photo-patternpictures-5717-1500x996.jpg" id="3_8j5gp"]
+[ext_resource type="Script" path="res://wall.gd" id="3_tkvhx"]
+[ext_resource type="Script" path="res://right.gd" id="4_5ns8n"]
+[ext_resource type="Script" path="res://xr_camera_3d.gd" id="4_houva"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oiqce"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_t0hlp"]
+rough = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_vks1d"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_kvylj"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6qeuo"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6nyni"]
+size = Vector3(2, 0.0429688, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nwaww"]
+cull_mode = 2
+albedo_texture = ExtResource("3_8j5gp")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.3
+backlight_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fhstq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ns5lw"]
+metallic = 1.0
+emission_enabled = true
+emission = Color(0, 0.776022, 0.776022, 1)
+emission_energy_multiplier = 15.74
+
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("hand", "player", "ball_player", "ball")]
+script = ExtResource("1_j8ufs")
+hand = NodePath("spectator/spec_origin/right")
+player = NodePath("spectator/spec_origin")
+ball_player = NodePath("ball/ball_origin")
+ball = NodePath("ball")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_left = 315.0
+offset_top = 187.0
+offset_right = 669.0
+offset_bottom = 384.0
+text = "Enter VR"
+
+[node name="spectator" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.13275)
+
+[node name="spec_origin" type="XROrigin3D" parent="spectator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 149.813, -111.679, 73.9127)
+current = true
+script = ExtResource("2_r4okr")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="spectator/spec_origin"]
+fov = 179.0
+
+[node name="right" type="XRController3D" parent="spectator/spec_origin" node_paths=PackedStringArray("ball", "target")]
+tracker = &"right_hand"
+script = ExtResource("4_5ns8n")
+ball = NodePath("../../../ball")
+target = NodePath("..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="spectator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.67828)
+mesh = SubResource("CapsuleMesh_oiqce")
+
+[node name="ball" type="RigidBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_t0hlp")
+can_sleep = false
+continuous_cd = true
+linear_damp = 1.0
+angular_damp = 1.0
+
+[node name="ball_origin" type="XROrigin3D" parent="ball"]
+script = ExtResource("4_houva")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="ball/ball_origin"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="ball"]
+mesh = SubResource("SphereMesh_vks1d")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ball"]
+shape = SubResource("SphereShape3D_kvylj")
+
+[node name="player" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("2_nwofu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.152707, -0.00484002, -0.269619)
+visible = false
+mesh = SubResource("PlaneMesh_6qeuo")
+
+[node name="wall" type="CollisionShape3D" parent="."]
+visible = false
+shape = SubResource("BoxShape3D_6nyni")
+
+[node name="wall" type="MeshInstance3D" parent="wall"]
+material_override = SubResource("StandardMaterial3D_nwaww")
+material_overlay = SubResource("StandardMaterial3D_nwaww")
+ignore_occlusion_culling = true
+mesh = SubResource("PlaneMesh_fhstq")
+skeleton = NodePath("../..")
+script = ExtResource("3_tkvhx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00965285, -0.00618529, 0.00236261)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.8891, 0, 17.3309)
+omni_range = 932.387
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+material_override = SubResource("StandardMaterial3D_ns5lw")
+polygon = PackedVector2Array(0, 0, 0, 0.1, 0.1, 0.1, 0.1, 0)
+mode = 2
+path_node = NodePath("")
+path_interval_type = 0
+path_interval = 0.5
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[connection signal="button_pressed" from="spectator/spec_origin/right" to="." method="_on_right_button_pressed"]
+[connection signal="button_released" from="spectator/spec_origin/right" to="." method="_on_right_button_released"]
