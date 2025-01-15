@@ -10,9 +10,6 @@
 [ext_resource type="Script" path="res://xr_camera_3d.gd" id="4_houva"]
 [ext_resource type="Script" path="res://XRCamera3D.gd" id="5_2k57l"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_t0hlp"]
-rough = true
-
 [sub_resource type="CylinderMesh" id="CylinderMesh_tnj61"]
 top_radius = 0.1
 bottom_radius = 0.1
@@ -27,6 +24,9 @@ bottom_radius = 0.1
 [sub_resource type="CylinderMesh" id="CylinderMesh_tmnov"]
 top_radius = 0.1
 bottom_radius = 0.1
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_t0hlp"]
+rough = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_vks1d"]
 
@@ -92,6 +92,60 @@ script = ExtResource("2_r4okr")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="spectator/spec_origin"]
 
+[node name="Node3D2" type="Node3D" parent="spectator/spec_origin/XRCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.34496, 0.593951, -6.30541)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="spectator/spec_origin/XRCamera3D/Node3D2" node_paths=PackedStringArray("anti_rot", "origin", "ball")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+top_level = true
+mesh = SubResource("CylinderMesh_tnj61")
+skeleton = NodePath("../../../../../ball/ball_origin/XRCamera3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_3esny")
+script = ExtResource("3_fcra3")
+anti_rot = NodePath("..")
+origin = NodePath("../../..")
+ball = NodePath("../../../../../ball")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="spectator/spec_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3ummw")
+skeleton = NodePath("../../../../../../ball/ball_origin/XRCamera3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_3esny")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="spectator/spec_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_tmnov")
+skeleton = NodePath("../../../../../../ball/ball_origin/XRCamera3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_3esny")
+
+[node name="Label3D" type="Label3D" parent="spectator/spec_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.852148, 0)
+billboard = 1
+no_depth_test = true
+text = "UP"
+font_size = 52
+
+[node name="Label3D2" type="Label3D" parent="spectator/spec_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.833527, 0)
+billboard = 1
+no_depth_test = true
+text = "DOWN"
+font_size = 62
+
+[node name="Label3D3" type="Label3D" parent="spectator/spec_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0850315, -0.824569)
+billboard = 1
+no_depth_test = true
+text = "LEFT"
+font_size = 62
+
+[node name="Label3D4" type="Label3D" parent="spectator/spec_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0850315, 0.972157)
+billboard = 1
+no_depth_test = true
+text = "RIGHT"
+font_size = 62
+
 [node name="right" type="XRController3D" parent="spectator/spec_origin" node_paths=PackedStringArray("ball")]
 tracker = &"right_hand"
 script = ExtResource("4_5ns8n")
@@ -105,6 +159,7 @@ linear_damp = 1.0
 angular_damp = 1.0
 
 [node name="ball_origin" type="XROrigin3D" parent="ball"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("4_houva")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="ball/ball_origin"]
@@ -114,11 +169,12 @@ script = ExtResource("5_2k57l")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.34496, 0.593951, -6.30541)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ball/ball_origin/XRCamera3D/Node3D2" node_paths=PackedStringArray("anti_rot", "origin", "ball")]
+top_level = true
 mesh = SubResource("CylinderMesh_tnj61")
 skeleton = NodePath("../../../../../ball/ball_origin/XRCamera3D")
 surface_material_override/0 = SubResource("StandardMaterial3D_3esny")
 script = ExtResource("3_fcra3")
-anti_rot = NodePath("../..")
+anti_rot = NodePath("..")
 origin = NodePath("../../..")
 ball = NodePath("../../../..")
 

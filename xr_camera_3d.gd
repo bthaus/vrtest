@@ -10,5 +10,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	return
 	global_transform=Transform3D(transform.basis,Vector3(0,0,0))
+	
 	print(transform)
 	pass

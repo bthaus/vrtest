@@ -11,6 +11,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	visible=origin.current
-	#rotation=anti_rot.rotation*-1
-	rotation=ball.rotation+anti_rot.rotation
+	global_position=anti_rot.global_position
+	##rotation=anti_rot.rotation*-1
+	#rotation=ball.rotation+anti_rot.rotation
 	pass
