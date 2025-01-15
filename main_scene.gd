@@ -19,9 +19,23 @@ func _ready() -> void:
 	print("parent init")
 	instance=self
 	init_maze()
-	#$spectator/spec_origin.current=true
-	#$ball/ball_origin.current=false
+	$spectator/spec_origin.current=true
+	$ball/ball_origin.current=false
 	start_walk()
+	xr_interface = XRServer.find_interface("OpenXR")
+	
+	if xr_interface and xr_interface.is_initialized():
+		print("OpenXR initialized successfully")
+		print("playarea:"+str(xr_interface.set_play_area_mode(XRInterface.XR_PLAY_AREA_UNKNOWN)))
+	
+		# Turn off v-sync!
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
+		# Change our main viewport to output to the HMD
+		get_viewport().use_xr = true
+	else:
+		print("OpenXR not initialized, please check if your headset is connected")
+	return
 	webxr_interface = XRServer.find_interface("WebXR")
 	if webxr_interface:
 		# WebXR uses a lot of asynchronous callbacks, so we connect to various
@@ -239,7 +253,7 @@ func build_walls():
 	#if Input.is_action_just_pressed(&"restart"):
 		#get_tree().reload_current_scene()
 	#pass
-	
+
 func get_wall(x,z,rot):
 	var wall=$wall.duplicate() 
 	wall.transform=$wall.transform

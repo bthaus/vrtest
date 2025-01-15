@@ -9,8 +9,6 @@ class_name Rot
 func _physics_process(delta: float) -> void:
 	
 	if target:
-		
-		
 		var a=Quaternion(transform.basis)
 		var b=Quaternion(target.transform.basis)
 		if not get_parent().current:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://rhy12n5i4ajl"]
+[gd_scene load_steps=18 format=3 uid="uid://rhy12n5i4ajl"]
 
 [ext_resource type="Script" path="res://main_scene.gd" id="1_j8ufs"]
 [ext_resource type="Script" path="res://player.gd" id="2_nwofu"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://wall.gd" id="3_tkvhx"]
 [ext_resource type="Script" path="res://right.gd" id="4_5ns8n"]
 [ext_resource type="Script" path="res://xr_camera_3d.gd" id="4_houva"]
+[ext_resource type="Script" path="res://XRCamera3D.gd" id="5_2k57l"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_oiqce"]
 
@@ -54,26 +55,25 @@ offset_right = 669.0
 offset_bottom = 384.0
 text = "Enter VR"
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CanvasLayer"]
+transform = Transform3D(-0.98701, 0, 0.160656, 0, 1, 0, -0.160656, 0, -0.98701, 1.28416, 2.54602, 5.42395)
+mesh = SubResource("CapsuleMesh_oiqce")
+skeleton = NodePath("../../spectator")
+
 [node name="spectator" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.13275)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.54602, 11.5334)
 
 [node name="spec_origin" type="XROrigin3D" parent="spectator"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 149.813, -111.679, 73.9127)
 current = true
 script = ExtResource("2_r4okr")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="spectator/spec_origin"]
 fov = 179.0
 
-[node name="right" type="XRController3D" parent="spectator/spec_origin" node_paths=PackedStringArray("ball", "target")]
+[node name="right" type="XRController3D" parent="spectator/spec_origin" node_paths=PackedStringArray("ball")]
 tracker = &"right_hand"
 script = ExtResource("4_5ns8n")
 ball = NodePath("../../../ball")
-target = NodePath("..")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="spectator"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.67828)
-mesh = SubResource("CapsuleMesh_oiqce")
 
 [node name="ball" type="RigidBody3D" parent="."]
 physics_material_override = SubResource("PhysicsMaterial_t0hlp")
@@ -86,6 +86,7 @@ angular_damp = 1.0
 script = ExtResource("4_houva")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="ball/ball_origin"]
+script = ExtResource("5_2k57l")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="ball"]
 mesh = SubResource("SphereMesh_vks1d")
@@ -116,7 +117,10 @@ skeleton = NodePath("../..")
 script = ExtResource("3_tkvhx")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00965285, -0.00618529, 0.00236261)
+transform = Transform3D(0.707637, 0, 0.706576, -0.285237, 0.914896, 0.285665, -0.646444, -0.403689, 0.647415, 4.742, -0.00618529, 0.00236261)
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.814229, -0.0740652, -0.5758, -0.285237, 0.914896, 0.285665, 0.505639, 0.396837, -0.766061, -7.48257, 5.21017, 0.00236261)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.8891, 0, 17.3309)

@@ -8,6 +8,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	transform=Transform3D(transform.basis,Vector3(0,0,0))
+	return
+	global_transform=Transform3D(transform.basis,Vector3(0,0,0))
 	print(transform)
 	pass
