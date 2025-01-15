@@ -207,7 +207,10 @@ func build_walls():
 			for dir in directions:
 				if not cell.edges.has(dir):
 					var pos=Vector2(i,n)*block_size+dir*block_size/2
-					
+					var label=Label3D.new()
+					label.text=str(i)+" "+str(n)
+					label.global_position=Vector3(pos.x,1,pos.y)
+					maze_body.add_child(label)
 					var angle=90
 					if dir==Vector2.LEFT or dir == Vector2.RIGHT:
 						angle=0
@@ -223,17 +226,8 @@ func build_walls():
 					place_wall(pos.x,pos.y,angle)
 	$wall.queue_free()
 	var children=maze_body.get_children()					
-	#for i in range(maze_size):
-		#var pos=Vector2(i+block_size,0)*block_size*block_size/2
-		#var angle=90
-		#place_wall(pos.x,pos.y,angle)
-		#pos=Vector2(i+block_size,maze_size-1)*block_size*block_size/2
-		#place_wall(pos.x,pos.y,angle)
-		#pos=Vector2(0,i+block_size)*block_size*block_size/2
-		#angle=0
-		#place_wall(pos.x,pos.y,angle)
-		#pos=Vector2(maze_size-1,i+block_size)*block_size*block_size/2
-		#place_wall(pos.x,pos.y,angle)					
+	$ball.global_position.x=block_size
+	$ball.global_position.z=block_size	
 	var astar=get_astar()
 	var path=astar.get_point_path(maze[0][0].id,maze[maze_size-1][maze_size-1].id)
 	

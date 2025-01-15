@@ -11,10 +11,9 @@ func _physics_process(delta: float) -> void:
 	if target:
 		var a=Quaternion(transform.basis)
 		var b=Quaternion(target.transform.basis)
-		if not get_parent().current:
-			return
-			var d=Quaternion(ball.transform.basis)
-			a-=d
+		#if not get_parent().current:
+			#var d=Quaternion(ball.transform.basis)
+			#a-=d
 		var c= b.slerp(a,1*delta)
 		target.next_rot=Basis(c)
 	

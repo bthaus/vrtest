@@ -1,18 +1,32 @@
-[gd_scene load_steps=18 format=3 uid="uid://rhy12n5i4ajl"]
+[gd_scene load_steps=25 format=3 uid="uid://rhy12n5i4ajl"]
 
 [ext_resource type="Script" path="res://main_scene.gd" id="1_j8ufs"]
 [ext_resource type="Script" path="res://player.gd" id="2_nwofu"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_r4okr"]
 [ext_resource type="Texture2D" uid="uid://ddslxoaro1h63" path="res://White-brick-wall-texture-photo-patternpictures-5717-1500x996.jpg" id="3_8j5gp"]
+[ext_resource type="Script" path="res://MeshInstance3D.gd" id="3_fcra3"]
 [ext_resource type="Script" path="res://wall.gd" id="3_tkvhx"]
 [ext_resource type="Script" path="res://right.gd" id="4_5ns8n"]
 [ext_resource type="Script" path="res://xr_camera_3d.gd" id="4_houva"]
 [ext_resource type="Script" path="res://XRCamera3D.gd" id="5_2k57l"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_oiqce"]
-
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_t0hlp"]
 rough = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tnj61"]
+top_radius = 0.1
+bottom_radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3esny"]
+no_depth_test = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3ummw"]
+top_radius = 0.1
+bottom_radius = 0.1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tmnov"]
+top_radius = 0.1
+bottom_radius = 0.1
 
 [sub_resource type="SphereMesh" id="SphereMesh_vks1d"]
 
@@ -39,6 +53,20 @@ emission_enabled = true
 emission = Color(0, 0.776022, 0.776022, 1)
 emission_energy_multiplier = 15.74
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5vjd1"]
+sky_top_color = Color(0.317467, 0.475055, 0.538041, 1)
+ground_bottom_color = Color(0.872469, 0.832553, 0.787152, 1)
+ground_curve = 0.139288
+
+[sub_resource type="Sky" id="Sky_hy7fs"]
+sky_material = SubResource("ProceduralSkyMaterial_5vjd1")
+radiance_size = 1
+
+[sub_resource type="Environment" id="Environment_huu7e"]
+background_mode = 2
+sky = SubResource("Sky_hy7fs")
+ambient_light_color = Color(0.402869, 0.486149, 0.588566, 1)
+
 [node name="Node3D" type="Node3D" node_paths=PackedStringArray("hand", "player", "ball_player", "ball")]
 script = ExtResource("1_j8ufs")
 hand = NodePath("spectator/spec_origin/right")
@@ -55,11 +83,6 @@ offset_right = 669.0
 offset_bottom = 384.0
 text = "Enter VR"
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CanvasLayer"]
-transform = Transform3D(-0.98701, 0, 0.160656, 0, 1, 0, -0.160656, 0, -0.98701, 1.28416, 2.54602, 5.42395)
-mesh = SubResource("CapsuleMesh_oiqce")
-skeleton = NodePath("../../spectator")
-
 [node name="spectator" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.54602, 11.5334)
 
@@ -68,7 +91,6 @@ current = true
 script = ExtResource("2_r4okr")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="spectator/spec_origin"]
-fov = 179.0
 
 [node name="right" type="XRController3D" parent="spectator/spec_origin" node_paths=PackedStringArray("ball")]
 tracker = &"right_hand"
@@ -87,6 +109,58 @@ script = ExtResource("4_houva")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="ball/ball_origin"]
 script = ExtResource("5_2k57l")
+
+[node name="Node3D2" type="Node3D" parent="ball/ball_origin/XRCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.34496, 0.593951, -6.30541)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ball/ball_origin/XRCamera3D/Node3D2" node_paths=PackedStringArray("anti_rot", "origin", "ball")]
+mesh = SubResource("CylinderMesh_tnj61")
+skeleton = NodePath("../../../../../ball/ball_origin/XRCamera3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_3esny")
+script = ExtResource("3_fcra3")
+anti_rot = NodePath("../..")
+origin = NodePath("../../..")
+ball = NodePath("../../../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="ball/ball_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3ummw")
+skeleton = NodePath("../../../../../../ball/ball_origin/XRCamera3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_3esny")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="ball/ball_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_tmnov")
+skeleton = NodePath("../../../../../../ball/ball_origin/XRCamera3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_3esny")
+
+[node name="Label3D" type="Label3D" parent="ball/ball_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.852148, 0)
+billboard = 1
+no_depth_test = true
+text = "UP"
+font_size = 52
+
+[node name="Label3D2" type="Label3D" parent="ball/ball_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.833527, 0)
+billboard = 1
+no_depth_test = true
+text = "DOWN"
+font_size = 62
+
+[node name="Label3D3" type="Label3D" parent="ball/ball_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0850315, -0.824569)
+billboard = 1
+no_depth_test = true
+text = "LEFT"
+font_size = 62
+
+[node name="Label3D4" type="Label3D" parent="ball/ball_origin/XRCamera3D/Node3D2/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0850315, 0.972157)
+billboard = 1
+no_depth_test = true
+text = "RIGHT"
+font_size = 62
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="ball"]
 mesh = SubResource("SphereMesh_vks1d")
@@ -141,6 +215,9 @@ path_u_distance = 1.0
 path_joined = false
 
 [node name="Node3D" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_huu7e")
 
 [connection signal="button_pressed" from="spectator/spec_origin/right" to="." method="_on_right_button_pressed"]
 [connection signal="button_released" from="spectator/spec_origin/right" to="." method="_on_right_button_released"]
